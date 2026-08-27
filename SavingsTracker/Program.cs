@@ -2,7 +2,7 @@
 {
     static decimal balance = 0;
     static List<string> transactionHistory = new List<string>();
-    static void Main()
+    static void Main(string[] args)
     {
         bool running = true;
         while (running)
@@ -27,6 +27,9 @@
                     ViewTransactionHistory();
                     break;
                 case "5":
+                    ViewSingleHistory();
+                    break;
+                case "6":
                     running = false;
                     Console.WriteLine("Exiting the program. Goodbye!");
                     break;
@@ -46,12 +49,13 @@
     static void DisplayChoices()
     {
         Console.Clear();
-        Console.WriteLine("Savings Tracker");
+        Console.WriteLine("---Savings Tracker---");
         Console.WriteLine("1. Deposit");
         Console.WriteLine("2. Withdraw");
         Console.WriteLine("3. Check Balance");
         Console.WriteLine("4. View Transaction History");
-        Console.WriteLine("5. Exit");
+        Console.WriteLine("5. View Single Transaction");
+        Console.WriteLine("6. Exit");
     }
 
     static void Deposit()
@@ -110,6 +114,28 @@
         foreach (string transaction in transactionHistory)
         {
             Console.WriteLine(transaction);
+        }
+    }
+
+    static void ViewSingleHistory()
+    {
+        Console.WriteLine("Please enter the index of the transaction you want to view:");
+        string number = Console.ReadLine();
+
+        if (int.TryParse(number, out int num))
+        { if(!transactionHistory.Any())
+            {
+                Console.WriteLine("No transactions to display.");
+                return;
+            }
+            if (transactionHistory.Count() >= num)
+            {
+                Console.WriteLine(transactionHistory[(num - 1)]);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid index. Please try again.");
         }
     }
 }
