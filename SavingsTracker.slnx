@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="SavingsTracker.API/SavingsTracker.API.csproj" Id="25acff45-e847-413e-bcc2-6d60335783b5" />
   <Project Path="SavingsTracker/SavingsTracker.csproj" />
 </Solution>
