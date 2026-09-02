@@ -8,44 +8,46 @@ namespace SavingsTrackerAPI.Controllers
     [Route("api/[controller]")]
     public class SavingsController : ControllerBase
     {
+        private readonly SavingsService _savingsService;
 
-        public SavingsController()
+        public SavingsController(SavingsService savingsService)
         {
+            _savingsService = savingsService;
         }
 
+        [HttpPost("deposit")]
+        public async Task<IActionResult> Deposit([FromBody] SavingsService.DepositRequestDto request)
+        {
+            var result = await  _savingsService.Deposit(request);
+
+            if (!result.Status)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
 
         [HttpPost("withdraw")]
-        public async Task<IActionResult> Withdraw([FromBody] SavingsService.WithdrawalRequestDto request)
+        public async Task<IActionResult> Withdraw(
+            [FromBody] SavingsService.WithdrawalRequestDto request)
         {
-            var _savingService = new SavingsService();
-            var result = await _savingService.Withdraw(request);
-            if (result.Amount > 0.1m) return Ok(result);
-            if(result.AccountNumber.Length == 10) return Ok(result);
-            return BadRequest(result);
+            var result = await _savingsService.Withdraw(request);
+
+            if (result.Amount <= 0)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("generate")]
-
         public async Task<IActionResult> GenerateAccountNumber()
         {
-            var _savingService = new SavingsService();
-            var accountNumber = await _savingService.GenerateAccountNumber();
+            var accountNumber = await _savingsService.GenerateAccountNumber();
+
             return Ok(accountNumber);
-        }
-
-        [HttpGet("deposit")]
-
-        public IActionResult Deposit()
-        {
-            var _savingService = new SavingsService();
-            var expiryDate = _savingService.GenerateAccountNumber().Result.ExpiryDate;
-            _savingService.Deposit();
-
-            if (expiryDate == DateTime.Now)
-            {
-                return BadRequest("Deposit failed");
-            }
-            return Ok("Deposit successful");
         }
     }
 }

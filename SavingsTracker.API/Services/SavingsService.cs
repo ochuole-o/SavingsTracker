@@ -7,19 +7,44 @@
         static string accountNumber = "7046751015";
 
         static List<string> transactionHistory = new List<string>();
-        public void Deposit()
+
+        public class DepositRequestDto
         {
-            Console.Write("Enter amount to deposit: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal amount) && amount > 0)
+            public decimal Amount { get; set; }
+            public bool Status { get; set; } 
+
+            public string ResponseCode { get; set; } 
+
+            public string Message { get; set; }
+
+            public decimal Balance { get; set; }
+
+        }
+
+        public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
+        {
+            if (request.Amount <= 0)
             {
-                balance += amount;
-                transactionHistory.Add($"Deposited: {amount:C}");
-                Console.WriteLine($"Successfully deposited {amount:C}. New balance: {balance:C}");
+                return new DepositRequestDto
+                {
+                    Status = false,
+                    ResponseCode = "99",
+                    Message = "Please enter a positive amount.",
+                    Balance = balance
+                };
             }
-            else
+
+            balance += request.Amount;
+
+            transactionHistory.Add($"Deposited: {request.Amount:C}");
+
+            return new DepositRequestDto
             {
-                Console.WriteLine("Invalid amount. Please enter a positive number.");
-            }
+                Status = true,
+                ResponseCode = "00",
+                Message = $"Successfully deposited {request.Amount:C}",
+                Balance = balance
+            };
         }
 
         public class VirtualAccountNumber
@@ -187,7 +212,8 @@
                 Console.WriteLine("Invalid index. Please try again.");
             }
         }
-    }
 
+        
+    }
 }
 
