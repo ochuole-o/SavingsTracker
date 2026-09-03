@@ -176,44 +176,27 @@
 
 
         }
-        static void CheckBalance()
+        public decimal CheckBalance()
         {
-            Console.WriteLine($"Current balance: {balance:C}");
+            return balance;
         }
 
-        static void ViewTransactionHistory()
+        public List<string> ViewTransactionHistory()
         {
-            Console.WriteLine("Transaction History:");
-            foreach (string transaction in transactionHistory)
-            {
-                Console.WriteLine(transaction);
-            }
+            return transactionHistory;
         }
 
-        static void ViewSingleHistory()
+        public string? ViewSingleHistory(int number)
         {
-            Console.WriteLine("Please enter the index of the transaction you want to view:");
-            string number = Console.ReadLine();
+            if (number <= 0 || number > transactionHistory.Count)
+            {
+                return null;
+            }
 
-            if (int.TryParse(number, out int num))
-            {
-                if (!transactionHistory.Any())
-                {
-                    Console.WriteLine("No transactions to display.");
-                    return;
-                }
-                if (transactionHistory.Count() >= num)
-                {
-                    Console.WriteLine(transactionHistory[(num - 1)]);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid index. Please try again.");
-            }
+            return transactionHistory[number - 1];
         }
 
-        
+
     }
 }
 

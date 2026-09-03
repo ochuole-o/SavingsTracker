@@ -49,5 +49,34 @@ namespace SavingsTrackerAPI.Controllers
 
             return Ok(accountNumber);
         }
+
+        [HttpGet("balance")]
+        public IActionResult CheckBalance()
+        {
+            var balance = _savingsService.CheckBalance();
+
+            return Ok(balance);
+        }
+
+        [HttpGet("transactions")]
+        public IActionResult ViewTransactionHistory()
+        {
+            var transactions = _savingsService.ViewTransactionHistory();
+
+            return Ok(transactions);
+        }
+
+        [HttpGet("transactions/{number}")]
+        public IActionResult ViewSingleHistory(int number)
+        {
+            var transaction = _savingsService.ViewSingleHistory(number);
+
+            if (transaction == null)
+            {
+                return NotFound("Transaction not found.");
+            }
+
+            return Ok(transaction);
+        }
     }
 }
