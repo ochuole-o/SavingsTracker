@@ -181,12 +181,12 @@
             return balance;
         }
 
-        public List<string> ViewTransactionHistory()
+        public async Task<List<string>> ViewTransactionHistory()
         {
             return transactionHistory;
         }
 
-        public string? ViewSingleHistory(int number)
+        public async Task<string?> ViewSingleHistory(int number)
         {
             if (number <= 0 || number > transactionHistory.Count)
             {

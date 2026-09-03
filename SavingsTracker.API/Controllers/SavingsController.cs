@@ -59,17 +59,17 @@ namespace SavingsTrackerAPI.Controllers
         }
 
         [HttpGet("transactions")]
-        public IActionResult ViewTransactionHistory()
+        public async Task<IActionResult> ViewTransactionHistory()
         {
-            var transactions = _savingsService.ViewTransactionHistory();
+            var transactions = await _savingsService.ViewTransactionHistory();
 
             return Ok(transactions);
         }
 
         [HttpGet("transactions/{number}")]
-        public IActionResult ViewSingleHistory(int number)
+        public async Task<IActionResult> ViewSingleHistory(int number)
         {
-            var transaction = _savingsService.ViewSingleHistory(number);
+            var transaction = await _savingsService.ViewSingleHistory(number);
 
             if (transaction == null)
             {
