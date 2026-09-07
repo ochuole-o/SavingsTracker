@@ -1,4 +1,6 @@
-﻿namespace SavingsTracker.API.Services
+﻿using SavingsTracker.API.Interfaces;
+
+namespace SavingsTracker.API.Services
 {
     public class SavingsService : ISavingsService
     {

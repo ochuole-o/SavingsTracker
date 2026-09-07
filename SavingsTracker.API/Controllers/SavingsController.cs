@@ -51,9 +51,9 @@ namespace SavingsTrackerAPI.Controllers
         }
 
         [HttpGet("balance")]
-        public async Task<IActionResult> CheckBalance()
+        public IActionResult CheckBalance()
         {
-            var balance = await _savingsService.CheckBalance();
+            var balance = _savingsService.CheckBalance();
 
             return Ok(balance);
         }

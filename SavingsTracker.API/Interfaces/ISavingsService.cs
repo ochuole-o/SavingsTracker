@@ -1,14 +1,21 @@
-﻿namespace SavingsTracker.API.Services;
+﻿using SavingsTracker.API.Services;
 
-
-public interface ISavingsService
+namespace SavingsTracker.API.Interfaces
 {
-    decimal CheckBalance();
-    Task<SavingsService.DepositRequestDto> Deposit(SavingsService.DepositRequestDto request);
-    string GenerateAccount();
-    Task<SavingsService.VirtualAccountNumber> GenerateAccountNumber();
-    Task<string?> ViewSingleHistory(int number);
-    Task<List<string>> ViewTransactionHistory();
-    Task<SavingsService.WithdrawalResponseDto> Withdraw();
-    Task<SavingsService.WithdrawalRequestDto> Withdraw(SavingsService.WithdrawalRequestDto request);
+    public interface ISavingsService
+    {
+        Task<SavingsService.DepositRequestDto> Deposit(SavingsService.DepositRequestDto request);
+
+        Task<SavingsService.WithdrawalRequestDto> Withdraw(SavingsService.WithdrawalRequestDto request);
+
+        Task<SavingsService.VirtualAccountNumber> GenerateAccountNumber();
+
+        string GenerateAccount();
+
+        decimal CheckBalance();
+
+        Task<List<string>> ViewTransactionHistory();
+
+        Task<string?> ViewSingleHistory(int number);
+    }
 }
