@@ -1,4 +1,3 @@
-using SavingsTracker.API.Interfaces;
 using SavingsTracker.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
