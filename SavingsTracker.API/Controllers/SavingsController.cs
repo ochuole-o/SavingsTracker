@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SavingsTracker.API.Interfaces;
 using SavingsTracker.API.Services;
 using System.Security.Principal;
 
@@ -8,9 +9,9 @@ namespace SavingsTrackerAPI.Controllers
     [Route("api/[controller]")]
     public class SavingsController : ControllerBase
     {
-        private readonly SavingsService _savingsService;
+        private readonly ISavingsService _savingsService;
 
-        public SavingsController(SavingsService savingsService)
+        public SavingsController(ISavingsService savingsService)
         {
             _savingsService = savingsService;
         }
@@ -51,9 +52,9 @@ namespace SavingsTrackerAPI.Controllers
         }
 
         [HttpGet("balance")]
-        public IActionResult CheckBalance()
+        public async Task<IActionResult> CheckBalance()
         {
-            var balance = _savingsService.CheckBalance();
+            var balance = await _savingsService.CheckBalance();
 
             return Ok(balance);
         }

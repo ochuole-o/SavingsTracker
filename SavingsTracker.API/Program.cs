@@ -1,3 +1,8 @@
+using SavingsTracker.API.Interfaces;
+using SavingsTracker.API.Services;
+
+builder.Services.AddScoped<ISavingsService, SavingsService>();
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

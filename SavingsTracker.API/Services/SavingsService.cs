@@ -1,6 +1,6 @@
 ﻿namespace SavingsTracker.API.Services
 {
-    public class SavingsService
+    public class SavingsService : ISavingsService
     {
         static decimal balance = 0;
 
@@ -11,9 +11,9 @@
         public class DepositRequestDto
         {
             public decimal Amount { get; set; }
-            public bool Status { get; set; } 
+            public bool Status { get; set; }
 
-            public string ResponseCode { get; set; } 
+            public string ResponseCode { get; set; }
 
             public string Message { get; set; }
 
@@ -60,12 +60,12 @@
             return new VirtualAccountNumber { AccountNumber = GenerateAccount() };
         }
 
-        public string GenerateAccount() 
-        { 
-            Random random = new Random(); return random.Next(1000000000, 2000000000).ToString(); 
+        public string GenerateAccount()
+        {
+            Random random = new Random(); return random.Next(1000000000, 2000000000).ToString();
         }
 
-        public  class WithdrawalRequestDto
+        public class WithdrawalRequestDto
         {
             public decimal Amount { get; set; }
 
@@ -123,7 +123,7 @@
         }
         public class WithdrawalResponseDto
         {
-            public bool Status { get; set; }            
+            public bool Status { get; set; }
             public string ResponseCode { get; set; }
         }
 
