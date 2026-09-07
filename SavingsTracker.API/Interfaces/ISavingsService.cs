@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SavingsTracker.API.Services;
+﻿using SavingsTracker.API.Services;
 
 namespace SavingsTracker.API.Interfaces
 {
     public interface ISavingsService
     {
-        Task<IActionResult> Deposit([FromBody] SavingsService.DepositRequestDto request);
+        Task<SavingsService.DepositRequestDto> Deposit(SavingsService.DepositRequestDto request);
 
         Task<SavingsService.WithdrawalRequestDto> Withdraw(SavingsService.WithdrawalRequestDto request);
 
