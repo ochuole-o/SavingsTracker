@@ -30,8 +30,7 @@ namespace SavingsTrackerAPI.Controllers
         }
 
         [HttpPost("withdraw")]
-        public async Task<IActionResult> Withdraw(
-            [FromBody] SavingsService.WithdrawalRequestDto request)
+        public async Task<IActionResult> Withdraw([FromBody] SavingsService.WithdrawalRequestDto request)
         {
             var result = await _savingsService.Withdraw(request);
 

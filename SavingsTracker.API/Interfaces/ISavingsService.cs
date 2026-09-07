@@ -1,11 +1,14 @@
-﻿using static SavingsTracker.API.Services.SavingsService;
-
-namespace SavingsTracker.API.Interfaces
+﻿namespace SavingsTracker.API.Services
 {
     public interface ISavingsService
     {
-        DepositRequestDto Deposit(DepositRequestDto request);
-        WithdrawalResponseDto Withdraw(WithdrawalRequestDto request);
         decimal CheckBalance();
+        Task<SavingsService.DepositRequestDto> Deposit(SavingsService.DepositRequestDto request);
+        string GenerateAccount();
+        Task<SavingsService.VirtualAccountNumber> GenerateAccountNumber();
+        Task<string?> ViewSingleHistory(int number);
+        Task<List<string>> ViewTransactionHistory();
+        Task<SavingsService.WithdrawalResponseDto> Withdraw();
+        Task<SavingsService.WithdrawalRequestDto> Withdraw(SavingsService.WithdrawalRequestDto request);
     }
 }
