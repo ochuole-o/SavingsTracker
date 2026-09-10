@@ -4,11 +4,43 @@ namespace SavingsTracker.API.Services
 {
     public class SavingsService : ISavingsService
     {
+        private readonly IMemoryCache _cache;
+
+        public SavingsService(IMemoryCache cache)
+        {
+            _cache = cache;
+        }
         static decimal balance = 0;
 
         static string accountNumber = "7046751015";
 
         static List<string> transactionHistory = new List<string>();
+
+        public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
+        {
+            if (request.Amount <= 0)
+            {
+                return new DepositRequestDto
+                {
+                    Status = false,
+                    ResponseCode = "99",
+                    Message = "Please enter a positive amount.",
+                    Balance = balance
+                };
+            }
+
+            balance += request.Amount;
+
+            transactionHistory.Add($"Deposited: {request.Amount:C}");
+
+            return new DepositRequestDto
+            {
+                Status = true,
+                ResponseCode = "00",
+                Message = $"Successfully deposited {request.Amount:C}",
+                Balance = balance
+            };
+        }
 
         public class DepositRequestDto
         {
@@ -22,6 +54,7 @@ namespace SavingsTracker.API.Services
             public decimal Balance { get; set; }
 
         }
+
 
         public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
         {

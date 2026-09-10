@@ -3,7 +3,9 @@ using SavingsTracker.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ISavingsService, SavingsService>();
+builder.Services.AddSingleton<ISavingsService, SavingsService>();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 
