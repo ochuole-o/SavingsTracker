@@ -1,4 +1,7 @@
-﻿using SavingsTracker.API.Interfaces;
+﻿using Microsoft.Extensions.Caching.Memory;
+using SavingsTracker.API.Interfaces;
+using static SavingsTracker.API.Services.SavingsService;
+
 
 namespace SavingsTracker.API.Services
 {
@@ -16,32 +19,6 @@ namespace SavingsTracker.API.Services
 
         static List<string> transactionHistory = new List<string>();
 
-        public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
-        {
-            if (request.Amount <= 0)
-            {
-                return new DepositRequestDto
-                {
-                    Status = false,
-                    ResponseCode = "99",
-                    Message = "Please enter a positive amount.",
-                    Balance = balance
-                };
-            }
-
-            balance += request.Amount;
-
-            transactionHistory.Add($"Deposited: {request.Amount:C}");
-
-            return new DepositRequestDto
-            {
-                Status = true,
-                ResponseCode = "00",
-                Message = $"Successfully deposited {request.Amount:C}",
-                Balance = balance
-            };
-        }
-
         public class DepositRequestDto
         {
             public decimal Amount { get; set; }
@@ -52,35 +29,33 @@ namespace SavingsTracker.API.Services
             public string Message { get; set; }
 
             public decimal Balance { get; set; }
-
         }
-
-
-        public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
-        {
-            if (request.Amount <= 0)
+           public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
             {
+                if (request.Amount <= 0)
+                {
+                    return new DepositRequestDto
+                    {
+                        Status = false,
+                        ResponseCode = "99",
+                        Message = "Please enter a positive amount.",
+                        Balance = balance
+                    };
+                }
+
+                balance += request.Amount;
+
+                transactionHistory.Add($"Deposited: {request.Amount:C}");
+
                 return new DepositRequestDto
                 {
-                    Status = false,
-                    ResponseCode = "99",
-                    Message = "Please enter a positive amount.",
+                    Status = true,
+                    ResponseCode = "00",
+                    Message = $"Successfully deposited {request.Amount:C}",
                     Balance = balance
                 };
             }
-
-            balance += request.Amount;
-
-            transactionHistory.Add($"Deposited: {request.Amount:C}");
-
-            return new DepositRequestDto
-            {
-                Status = true,
-                ResponseCode = "00",
-                Message = $"Successfully deposited {request.Amount:C}",
-                Balance = balance
-            };
-        }
+   
 
         public class VirtualAccountNumber
         {
@@ -215,6 +190,7 @@ namespace SavingsTracker.API.Services
         {
             return balance;
         }
+
 
         public async Task<List<string>> ViewTransactionHistory()
         {
