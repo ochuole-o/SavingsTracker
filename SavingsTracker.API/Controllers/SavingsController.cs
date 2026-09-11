@@ -3,6 +3,7 @@ using SavingsTracker.API.Interfaces;
 using SavingsTracker.API.Services;
 using System.Security.Principal;
 
+
 namespace SavingsTrackerAPI.Controllers
 {
     [ApiController]
@@ -77,6 +78,14 @@ namespace SavingsTrackerAPI.Controllers
             }
 
             return Ok(transaction);
+        }
+
+        [HttpGet("bankslist")]
+        public async Task<IActionResult> GetBanks()
+        {
+            var banks = await _savingsService.GetBanks();
+
+            return Ok(banks);
         }
     }
 }

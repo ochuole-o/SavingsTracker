@@ -1,4 +1,5 @@
-﻿using SavingsTracker.API.Services;
+﻿using SavingsTracker.API.DTO;
+using SavingsTracker.API.Services;
 
 namespace SavingsTracker.API.Interfaces
 {
@@ -17,5 +18,8 @@ namespace SavingsTracker.API.Interfaces
         Task<List<string>> ViewTransactionHistory();
 
         Task<string?> ViewSingleHistory(int number);
+        Task<List<BankDto>> SaveBanks();
+
+        Task<List<BankDto>> GetBanks();
     }
 }

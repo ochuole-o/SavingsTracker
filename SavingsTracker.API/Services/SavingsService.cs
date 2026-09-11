@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using SavingsTracker.API.Interfaces;
 using static SavingsTracker.API.Services.SavingsService;
+using SavingsTracker.API.DTO;
+
 
 
 namespace SavingsTracker.API.Services
@@ -30,7 +32,7 @@ namespace SavingsTracker.API.Services
 
             public decimal Balance { get; set; }
         }
-           public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
+        public async Task<DepositRequestDto> Deposit(DepositRequestDto request)
             {
                 if (request.Amount <= 0)
                 {
@@ -207,6 +209,65 @@ namespace SavingsTracker.API.Services
             return transactionHistory[number - 1];
         }
 
+        public async Task<List<BankDto>> SaveBanks()
+        {
+            if (_cache.TryGetValue("banks", out List<BankDto>? banks))
+            {
+                return banks;
+            }
+
+             banks = new List<BankDto>
+            {
+                new BankDto
+                {
+                    BankName = "GTBank",
+                    Code = "058"
+                },
+
+                new BankDto
+                {
+                    BankName = "Access Bank",
+                    Code = "044"
+                },
+
+                new BankDto
+                {
+                    BankName = "Keystone Bank",
+                    Code = "011"
+                },
+
+                new BankDto
+                {
+                    BankName = "Zenith Bank",
+                    Code = "057"
+                },
+
+                new BankDto
+                {
+                    BankName = "UBA",
+                    Code = "033"
+                },
+
+            }; 
+
+            _cache.Set(
+               "banks",
+               banks,
+               TimeSpan.FromHours(2)
+           );
+
+            return banks;
+        }
+
+        public async Task<List<BankDto>> GetBanks()
+        {
+            if (_cache.TryGetValue("banks", out List<BankDto>? banks))
+            {
+                return banks;
+            }
+
+            return await SaveBanks();
+        }
 
     }
 }
